@@ -51,17 +51,20 @@
         });
     </script>
     <script type="module">
-        import DiceBox from '@3d-dice/dice-box';
+        import DiceBox from "https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/dice-box.es.js";
 
         window.box = new DiceBox({
             assetPath: "assets/",
             origin: "https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/",
             container: "#dice",
+            theme: "rock",
             themeColor: "#547892",
-            offscreen: false,
-            scale: 6,
-            enableShadows: false,
-            spinForce: 6
+            externalThemes: {
+                rock: "https://www.unpkg.com/@3d-dice/theme-rock@0.2.0",
+            },
+            scale: 16,
+            offscreen: true,
+            spinForce: 6,
         });
 
         window.box.init().then(() => {
