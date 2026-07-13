@@ -5,6 +5,8 @@
     <title>Territory</title>
     <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
     <script defer>
+
+        //creates rows x columns filled with changeable tiles
         window.onload = () => {
             for (let i = 0; i < 16; i++) {
                 let row = $("<div>", {class: "row"});
@@ -19,9 +21,15 @@
             }
         }
 
-        let currentPlayer = 0;
+        //changePlayer automatically increases the player by 1, and I have player 1 as 0
+        let currentPlayer = -1;
+        window.num = 0;
 
+        //allows player to place as many tiles as they have rolled
         function changeSprite(img) {
+            if (window.num === 0) {return}
+            if (!img.src.endsWith("sprites/black.png")) {return}
+
             switch (currentPlayer % 4) {
                 case 0:
                     img.src = "sprites/red.png";
@@ -36,19 +44,21 @@
                     img.src = "sprites/yellow.png";
                     break;
             }
+
+            window.num --;
+            if (window.num === 0) {changePlayer()}
         }
 
-        window.addEventListener("keydown", async (e) => {
-            if (e.key === "Enter") {
-                currentPlayer++;
+        //changes player and rolls dice
+        async function changePlayer() {
+            currentPlayer++;
 
-                if (window.box) {
-                    const result = await window.box.roll("1d6");
-                    console.log(result);
-                    window.num = result;
-                }
+            if (window.box) {
+                const result = await window.box.roll("1d6");
+                window.num = result[0].value;
+                $("#p" + String(currentPlayer % 4 + 1)).find("." + String(window.num)).append("|");
             }
-        });
+        }
     </script>
     <script type="module">
         import DiceBox from "https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/dice-box.es.js";
@@ -67,9 +77,9 @@
             spinForce: 6,
         });
 
-        window.box.init().then(() => {
-            window.box.roll("1d6");
-        }).catch(console.error);
+        await window.box.init();
+        $("#dice > canvas").height(204).width(388);
+        changePlayer();
     </script>
     <style>
         body {
@@ -102,8 +112,9 @@
         }
 
         #dice {
-            height: 206px;
-            width: 288px;
+            height: 204px;
+            width: 388px;
+            border: 1px solid black;
         }
 
         table {
@@ -142,12 +153,12 @@
                     <th>VI</th>
                 </tr>
                 <tr class="counting">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="1"></td>
+                    <td class="2"></td>
+                    <td class="3"></td>
+                    <td class="4"></td>
+                    <td class="5"></td>
+                    <td class="6"></td>
                 </tr>
             </table>
         </div>
@@ -162,12 +173,12 @@
                     <th>VI</th>
                 </tr>
                 <tr class="counting">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="1"></td>
+                    <td class="2"></td>
+                    <td class="3"></td>
+                    <td class="4"></td>
+                    <td class="5"></td>
+                    <td class="6"></td>
                 </tr>
             </table>
         </div>
@@ -182,12 +193,12 @@
                     <th>VI</th>
                 </tr>
                 <tr class="counting">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="1"></td>
+                    <td class="2"></td>
+                    <td class="3"></td>
+                    <td class="4"></td>
+                    <td class="5"></td>
+                    <td class="6"></td>
                 </tr>
             </table>
         </div>
@@ -202,12 +213,12 @@
                     <th>VI</th>
                 </tr>
                 <tr class="counting">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="1"></td>
+                    <td class="2"></td>
+                    <td class="3"></td>
+                    <td class="4"></td>
+                    <td class="5"></td>
+                    <td class="6"></td>
                 </tr>
             </table>
         </div>
